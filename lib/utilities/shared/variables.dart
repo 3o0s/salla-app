@@ -4,7 +4,7 @@ import 'package:shopapp/modules/favorites_screen.dart';
 import 'package:shopapp/modules/products_screen.dart';
 import 'package:shopapp/modules/settings.dart';
 
-String userToken = '';
+String? userToken;
 
 enum AppState {
   success,
