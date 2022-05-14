@@ -5,7 +5,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   primaryColor: defaultColor,
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xFF303030),
-    titleSpacing: 20.0,
+    titleSpacing: 5.0,
     elevation: 0.0,
     titleTextStyle: TextStyle(
       color: Colors.white,
@@ -24,7 +24,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   scaffoldBackgroundColor: Colors.white,
   primaryColor: defaultColor,
   appBarTheme: const AppBarTheme(
-    titleSpacing: 20.0,
+    titleSpacing: 5.0,
     backgroundColor: Colors.white,
     iconTheme: IconThemeData(color: Colors.grey),
     elevation: 0.0,

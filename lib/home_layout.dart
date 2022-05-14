@@ -15,7 +15,9 @@ class HomeLayout extends StatelessWidget {
       builder: ((context, state) {
         ShopCubit shopCubit = ShopCubit.get(context);
         return Scaffold(
+          backgroundColor: Colors.grey[200],
           appBar: AppBar(
+            titleSpacing: Theme.of(context).appBarTheme.titleSpacing,
             title: Text(
               'Salla',
               style: Theme.of(context)

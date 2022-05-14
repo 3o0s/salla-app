@@ -6,6 +6,7 @@ class CategoriesModel {
         categoriesData = CategoriesData.formJson(json['data']);
 }
 
+
 class CategoriesData {
   final int currentPage;
   List<Category> data = [];
