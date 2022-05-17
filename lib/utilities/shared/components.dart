@@ -3,7 +3,6 @@ import 'package:shopapp/modules/login_screen.dart';
 import 'package:shopapp/utilities/network/local/cach_helper.dart';
 import 'package:shopapp/utilities/shared/theme.dart';
 import 'package:shopapp/utilities/shared/variables.dart';
-// import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 Color messageColor(AppState state) {
   switch (state) {

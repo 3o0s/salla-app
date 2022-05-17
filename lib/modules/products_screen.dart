@@ -6,6 +6,7 @@ import 'package:shopapp/model/catagories_model.dart';
 import 'package:shopapp/model/home_model.dart';
 import 'package:shopapp/utilities/cubit/shop/cubit.dart';
 import 'package:shopapp/utilities/cubit/shop/states.dart';
+import 'package:shopapp/utilities/shared/components.dart';
 import 'package:shopapp/utilities/shared/theme.dart';
 
 class ProductScreen extends StatelessWidget {
@@ -32,83 +33,6 @@ class ProductScreen extends StatelessWidget {
   }
 }
 
-Widget productLayout(
-  BuildContext context, {
-  required CategoriesData categoriesData,
-  required HomeData homeData,
-}) =>
-    SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        //TODO: remove this container
-        color: Colors.grey[200],
-        child: Column(
-          children: [
-            CarouselSlider(
-              items: homeData.banners.map((banner) {
-                return Image(
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    banner.image,
-                  ),
-                );
-              }).toList(),
-              options: CarouselOptions(
-                enableInfiniteScroll: true,
-                viewportFraction: 1,
-                autoPlay: true,
-                height: 200,
-                autoPlayInterval: const Duration(seconds: 3),
-                autoPlayCurve: Curves.fastOutSlowIn,
-              ),
-            ),
-            Container(
-              height: 5,
-              color: Colors.grey[200],
-            ),
-            ConditionalBuilder(
-              condition: ShopCubit.get(context).categoriesModel != null,
-              builder: (context) => CategoriesBuilder(
-                categoriesData: categoriesData,
-              ),
-              fallback: (context) {
-                return const SizedBox(
-                  height: 110,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            ),
-            Container(
-              height: 5,
-              color: Colors.grey[200],
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              color: const Color.fromARGB(117, 238, 238, 238),
-              child: GridView.count(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                children: List.generate(
-                  homeData.products.length,
-                  (index) => productItem(homeData.products[index]),
-                ),
-              ),
-            ),
-            Container(
-              height: 5,
-              color: Colors.grey[200],
-            ),
-          ],
-        ),
-      ),
-    );
-
 class CategoriesBuilder extends StatelessWidget {
   final CategoriesData categoriesData;
   const CategoriesBuilder({
@@ -134,7 +58,35 @@ class CategoriesBuilder extends StatelessWidget {
   }
 }
 
-Widget productItem(Product product) => Container(
+Widget categoryItem({
+  required Category category,
+}) =>
+    Column(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+          ),
+          child: CircleAvatar(
+            radius: 40,
+            backgroundColor: Colors.white,
+            backgroundImage: NetworkImage(
+              category.image,
+            ),
+          ),
+        ),
+        Text(
+          category.name,
+          maxLines: 1,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            overflow: TextOverflow.ellipsis,
+          ),
+        )
+      ],
+    );
+Widget productItem(BuildContext context, Product product) => Container(
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(
@@ -178,10 +130,18 @@ Widget productItem(Product product) => Container(
                     child: IconButton(
                       padding: const EdgeInsets.all(0),
                       onPressed: () {
-                        //TODO: add to love
+                        ShopCubit.get(context).addOrRemoveFromFav(
+                          context,
+                          id: product.id,
+                        );
                       },
-                      icon: const Icon(
-                        Icons.favorite_border,
+                      icon: Icon(
+                        ShopCubit.get(context).fav[product.id]!
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: ShopCubit.get(context).fav[product.id]!
+                            ? Colors.red
+                            : Colors.grey,
                       ),
                     ),
                   ),
@@ -246,31 +206,85 @@ Widget productItem(Product product) => Container(
         ],
       ),
     );
-Widget categoryItem({
-  required Category category,
+
+Widget productLayout(
+  BuildContext context, {
+  required CategoriesData categoriesData,
+  required HomeData homeData,
 }) =>
-    Column(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-          ),
-          child: CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.white,
-            backgroundImage: NetworkImage(
-              category.image,
+    SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Container(
+        //TODO: remove this container
+        color: Colors.grey[200],
+        child: Column(
+          children: [
+            TextButton(
+                onPressed: () {
+                  ShopCubit.get(context).getFavorites();
+                },
+                child: Text('fave')),
+            CarouselSlider(
+              items: homeData.banners.map((banner) {
+                return Image(
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    banner.image,
+                  ),
+                );
+              }).toList(),
+              options: CarouselOptions(
+                enableInfiniteScroll: true,
+                viewportFraction: 1,
+                autoPlay: true,
+                height: 200,
+                autoPlayInterval: const Duration(seconds: 3),
+                autoPlayCurve: Curves.fastOutSlowIn,
+              ),
             ),
-          ),
+            Container(
+              height: 5,
+              color: Colors.grey[200],
+            ),
+            ConditionalBuilder(
+              condition: ShopCubit.get(context).categoriesModel != null,
+              builder: (context) => CategoriesBuilder(
+                categoriesData: categoriesData,
+              ),
+              fallback: (context) {
+                return const SizedBox(
+                  height: 110,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            ),
+            Container(
+              height: 5,
+              color: Colors.grey[200],
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              color: const Color.fromARGB(117, 238, 238, 238),
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                children: List.generate(
+                  homeData.products.length,
+                  (index) => productItem(context, homeData.products[index]),
+                ),
+              ),
+            ),
+            Container(
+              height: 5,
+              color: Colors.grey[200],
+            ),
+          ],
         ),
-        Text(
-          category.name,
-          maxLines: 1,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis,
-          ),
-        )
-      ],
+      ),
     );

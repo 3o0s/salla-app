@@ -2,7 +2,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/model/catagories_model.dart';
-import 'package:shopapp/modules/products_screen.dart';
 import 'package:shopapp/utilities/cubit/shop/cubit.dart';
 import 'package:shopapp/utilities/cubit/shop/states.dart';
 

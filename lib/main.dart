@@ -19,6 +19,7 @@ void main(List<String> args) {
     (value) async {
       CachHelper.loadData('token').then((value) {
         userToken = value;
+        print( value);
       });
       onBoarding = await CachHelper.loadData('onBoarding');
 

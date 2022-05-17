@@ -16,8 +16,11 @@ class DioHelper {
     required String path,
     required Map<String, dynamic> data,
     String lang = 'en',
+    String? token,
   }) {
     dio.options.headers = {
+      'Authorization': token ?? '',
+      'Content-Type': 'application/json',
       'lang': lang,
     };
     return dio.post(
