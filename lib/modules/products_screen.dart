@@ -6,7 +6,6 @@ import 'package:shopapp/model/catagories_model.dart';
 import 'package:shopapp/model/home_model.dart';
 import 'package:shopapp/utilities/cubit/shop/cubit.dart';
 import 'package:shopapp/utilities/cubit/shop/states.dart';
-import 'package:shopapp/utilities/shared/components.dart';
 import 'package:shopapp/utilities/shared/theme.dart';
 
 class ProductScreen extends StatelessWidget {

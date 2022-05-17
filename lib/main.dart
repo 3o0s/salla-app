@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/home_layout.dart';
 import 'package:shopapp/modules/login_screen.dart';
 import 'package:shopapp/modules/onboarding_screen.dart';
+import 'package:shopapp/modules/register_screen.dart';
 import 'package:shopapp/utilities/cubit/shop/cubit.dart';
 import 'package:shopapp/utilities/network/local/cach_helper.dart';
 import 'package:shopapp/utilities/network/remote/dio_helper.dart';
@@ -19,7 +20,7 @@ void main(List<String> args) {
     (value) async {
       CachHelper.loadData('token').then((value) {
         userToken = value;
-        print( value);
+        print(value);
       });
       onBoarding = await CachHelper.loadData('onBoarding');
 
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
         darkTheme: darkTheme,
         themeMode: ThemeMode.light,
         home: startingPage,
+
       ),
     );
   }
