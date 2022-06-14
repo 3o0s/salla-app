@@ -14,7 +14,6 @@ class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ShopCubit, ShopStates>(
-      // listener: (context, state) {   },
       builder: (context, state) {
         ShopCubit shopCubit = ShopCubit.get(context);
         return ConditionalBuilder(
@@ -86,6 +85,7 @@ Widget categoryItem({
       ],
     );
 Widget productItem(BuildContext context, Product product) => Container(
+      width: 182.5,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(
@@ -210,80 +210,83 @@ Widget productLayout(
   BuildContext context, {
   required CategoriesData categoriesData,
   required HomeData homeData,
-}) =>
-    SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        //TODO: remove this container
-        color: Colors.grey[200],
-        child: Column(
-          children: [
-            TextButton(
-                onPressed: () {
-                  ShopCubit.get(context).getFavorites();
-                },
-                child: Text('fave')),
-            CarouselSlider(
-              items: homeData.banners.map((banner) {
-                return Image(
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    banner.image,
-                  ),
-                );
-              }).toList(),
-              options: CarouselOptions(
-                enableInfiniteScroll: true,
-                viewportFraction: 1,
-                autoPlay: true,
-                height: 200,
-                autoPlayInterval: const Duration(seconds: 3),
-                autoPlayCurve: Curves.fastOutSlowIn,
-              ),
-            ),
-            Container(
-              height: 5,
-              color: Colors.grey[200],
-            ),
-            ConditionalBuilder(
-              condition: ShopCubit.get(context).categoriesModel != null,
-              builder: (context) => CategoriesBuilder(
-                categoriesData: categoriesData,
-              ),
-              fallback: (context) {
-                return const SizedBox(
-                  height: 110,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            ),
-            Container(
-              height: 5,
-              color: Colors.grey[200],
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              color: const Color.fromARGB(117, 238, 238, 238),
-              child: GridView.count(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                children: List.generate(
-                  homeData.products.length,
-                  (index) => productItem(context, homeData.products[index]),
+}) {
+  double width = MediaQuery.of(context).size.width;
+  int itemCount = (width - 5 * 2 - 10) ~/ 150.0;
+  double padding = (width - itemCount * 182.5 - (itemCount - 1) * 10) / 2 > 5
+      ? (width - itemCount * 182.5 - (itemCount - 1) * 10) / 2
+      : 5;
+
+  return SingleChildScrollView(
+    physics: const BouncingScrollPhysics(),
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: padding),
+      //TODO: remove this container
+      color: Colors.grey[200],
+      child: Column(
+        children: [
+          CarouselSlider(
+            items: homeData.banners.map((banner) {
+              return Image(
+                width: double.infinity,
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                  banner.image,
                 ),
+              );
+            }).toList(),
+            options: CarouselOptions(
+              enableInfiniteScroll: true,
+              viewportFraction: 1,
+              autoPlay: true,
+              height: 200,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayCurve: Curves.fastOutSlowIn,
+            ),
+          ),
+          Container(
+            height: 5,
+            color: Colors.grey[200],
+          ),
+          ConditionalBuilder(
+            condition: ShopCubit.get(context).categoriesModel != null,
+            builder: (context) => CategoriesBuilder(
+              categoriesData: categoriesData,
+            ),
+            fallback: (context) {
+              return const SizedBox(
+                height: 110,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          ),
+          Container(
+            height: 5,
+            color: Colors.grey[200],
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            color: const Color.fromARGB(117, 238, 238, 238),
+            child: GridView.count(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: itemCount,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              children: List.generate(
+                homeData.products.length,
+                (index) => productItem(context, homeData.products[index]),
               ),
             ),
-            Container(
-              height: 5,
-              color: Colors.grey[200],
-            ),
-          ],
-        ),
+          ),
+          Container(
+            height: 5,
+            color: Colors.grey[200],
+          ),
+        ],
       ),
-    );
+    ),
+  );
+}

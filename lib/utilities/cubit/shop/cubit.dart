@@ -53,7 +53,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
   void getCategoriesData() {
     DioHelper.getData(url: getCategories).then((response) {
-      categoriesModel = CategoriesModel.fromJson(catmodel);
+      categoriesModel = CategoriesModel.fromJson(response.data);
 
       emit(ShopCategoriesSuccessState());
     }).catchError((err) {
@@ -65,8 +65,10 @@ class ShopCubit extends Cubit<ShopStates> {
   void getFavorites() {
     DioHelper.getData(url: favorites, token: userToken).then((value) {
       favoritesModel = FavoritesModel.fromJson(value.data);
+      emit(ShopsuccessgetFavState());
     }).catchError((error) {
       print(error);
+      emit(ShopgetFavErrorState());
     });
   }
 
@@ -78,11 +80,11 @@ class ShopCubit extends Cubit<ShopStates> {
         'product_id': id,
       },
     ).then((value) {
-      print(value.data);
       if (value.data['status']) {
         final String message = value.data['message'];
         final bool isfav = message == 'Added Successfully';
         fav[id] = isfav ? true : false;
+        getFavorites();
         emit(ShopAddedOrRemovedFavState());
         showSnack(
           context,
@@ -95,12 +97,3 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 }
-
-
-/*
-
-{"status":true,"message":"Added Successfully","data":
-{"id":65226,"product":
-{"id":54,"price":11499,"old_price":12499,"discount":8,"image":"https://student.valuxapps.com/storage/uploads/products/1615441020ydvqD.item_XXL_51889566_32a329591e022.jpeg"}}}
-
-*/

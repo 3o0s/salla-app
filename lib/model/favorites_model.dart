@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class FavoritesModel {
   final bool status;
   final FavoritesData data;
@@ -20,7 +22,7 @@ class FavoritesData {
 class Product {
   final int id;
   final dynamic oldPrice, discount, price;
-  final String name, image;
+  final String name, image, description;
 
   Product.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -28,5 +30,6 @@ class Product {
         oldPrice = json['old_price'],
         discount = json['discount'],
         name = json['name'],
-        image = json['image'];
+        image = json['image'],
+        description = json['description'];
 }

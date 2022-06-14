@@ -62,8 +62,13 @@ class MyApp extends StatelessWidget {
         theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: ThemeMode.light,
+<<<<<<< HEAD
         // home: startingPage,
         home: const RegisterScreen(),
+=======
+        home: startingPage,
+
+>>>>>>> 8add71c255b8ee60dcdf011b89d7b58af5cfda1a
       ),
     );
   }
