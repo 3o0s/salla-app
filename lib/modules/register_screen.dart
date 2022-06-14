@@ -41,6 +41,7 @@ class RegisterScreen extends StatelessWidget {
           titleSpacing: 20),
       body: gridView,
       //   Container(
+      // 
       // padding: EdgeInsets.symmetric(horizontal: 10),
       // child: Row(
       //   mainAxisAlignment: MainAxisAlignment.center,
