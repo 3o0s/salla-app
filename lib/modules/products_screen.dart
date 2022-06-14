@@ -42,7 +42,7 @@ class CategoriesBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      height: 105.0,
+      height: 120.0,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) =>
@@ -59,30 +59,32 @@ class CategoriesBuilder extends StatelessWidget {
 Widget categoryItem({
   required Category category,
 }) =>
-    Column(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-          ),
-          child: CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.white,
-            backgroundImage: NetworkImage(
-              category.image,
+    SizedBox(
+      width: 80,
+      child: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+            ),
+            child: CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.white,
+              backgroundImage: NetworkImage(
+                category.image,
+              ),
             ),
           ),
-        ),
-        Text(
-          category.name,
-          maxLines: 1,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis,
-          ),
-        )
-      ],
+          Text(
+            category.name,
+            maxLines: 2,
+            style: const TextStyle(
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
+        ],
+      ),
     );
 Widget productItem(BuildContext context, Product product) => Container(
       width: 182.5,

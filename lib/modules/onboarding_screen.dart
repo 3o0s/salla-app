@@ -7,9 +7,21 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 PageController pageController = PageController();
 List<BoardingModel> boardingList = [
-  BoardingModel(image: 'images/shop2.jpg', title: 'Title 1', body: 'Body 1'),
-  BoardingModel(image: 'images/shop2.jpg', title: 'Title 2', body: 'Body 2'),
-  BoardingModel(image: 'images/shop2.jpg', title: 'Title 3', body: 'Body 3'),
+  BoardingModel(
+      image:
+          'https://us.123rf.com/450wm/mungkorn123rf/mungkorn123rf2008/mungkorn123rf200800029/153512635-shopping-online-in-smartphone-application-digital-marketing-vector-illustration.jpg',
+      title: 'Title 1',
+      body: 'Body 1'),
+  BoardingModel(
+      image:
+          'https://us.123rf.com/450wm/mungkorn123rf/mungkorn123rf2008/mungkorn123rf200800029/153512635-shopping-online-in-smartphone-application-digital-marketing-vector-illustration.jpg',
+      title: 'Title 2',
+      body: 'Body 2'),
+  BoardingModel(
+      image:
+          'https://us.123rf.com/450wm/mungkorn123rf/mungkorn123rf2008/mungkorn123rf200800029/153512635-shopping-online-in-smartphone-application-digital-marketing-vector-illustration.jpg',
+      title: 'Title 3',
+      body: 'Body 3'),
 ];
 void submit(context) {
   CachHelper.saveData('onBoarding', true).then((value) {
@@ -109,9 +121,7 @@ Widget onBoardingpage({required BoardingModel model}) => Column(
             children: [
               Image(
                 // height: MediaQuery.of(context).size.height / 2,
-                image: AssetImage(
-                  model.image,
-                ),
+                image: NetworkImage(model.image),
               ),
             ],
           ),

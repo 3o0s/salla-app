@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/home_layout.dart';
 import 'package:shopapp/modules/login_screen.dart';
 import 'package:shopapp/modules/onboarding_screen.dart';
+import 'package:shopapp/modules/profile.dart';
 import 'package:shopapp/modules/register_screen.dart';
 import 'package:shopapp/utilities/cubit/shop/cubit.dart';
 import 'package:shopapp/utilities/network/local/cach_helper.dart';
@@ -62,13 +63,8 @@ class MyApp extends StatelessWidget {
         theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: ThemeMode.light,
-<<<<<<< HEAD
+        home: const LoginScreen(),
         // home: startingPage,
-        home: const RegisterScreen(),
-=======
-        home: startingPage,
-
->>>>>>> 8add71c255b8ee60dcdf011b89d7b58af5cfda1a
       ),
     );
   }

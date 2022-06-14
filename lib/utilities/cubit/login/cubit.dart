@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopapp/model/login_model.dart';
+import 'package:shopapp/model/user_model.dart';
 import 'package:shopapp/utilities/cubit/login/states.dart';
 import 'package:shopapp/utilities/network/end_points.dart';
 import 'package:shopapp/utilities/network/remote/dio_helper.dart';
+import 'package:shopapp/utilities/shared/components.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
@@ -13,13 +14,10 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(PasswordVisibleState());
   }
 
-  late LoginModel loginModel;
-
-  static TextEditingController emailController = TextEditingController();
-  static TextEditingController passwordController = TextEditingController();
-
   static LoginCubit getLoginCubit(BuildContext context) =>
       BlocProvider.of(context);
+
+  late UserModel loginModel;
 
   void userLogin() async {
     emit(LoginLoadingState());
@@ -28,11 +26,11 @@ class LoginCubit extends Cubit<LoginStates> {
       'email': emailController.text,
       'password': passwordController.text,
     }).then((value) {
-      loginModel = LoginModel.fromjson(value.data);
+      loginModel = UserModel.fromjson(value.data);
       if (loginModel.status) {
         emit(LoginSuccessState(loginModel));
       } else {
-        emit(LoginErrorState(loginModel.message));
+        emit(LoginErrorState(loginModel.message ?? ''));
       }
     }).catchError((err) {
       emit(LoginErrorState('please check your connection'));

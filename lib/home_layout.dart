@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopapp/modules/login_screen.dart';
+import 'package:shopapp/modules/profile.dart';
 import 'package:shopapp/modules/search_screen.dart';
 import 'package:shopapp/utilities/cubit/shop/cubit.dart';
 import 'package:shopapp/utilities/cubit/shop/states.dart';
+import 'package:shopapp/utilities/network/local/cach_helper.dart';
 import 'package:shopapp/utilities/shared/components.dart';
 import 'package:shopapp/utilities/shared/variables.dart';
 
@@ -26,12 +29,40 @@ class HomeLayout extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             actions: [
+              shopCubit.currentIndex == 3
+                  ? TextButton(
+                      onPressed: () {
+                        CachHelper.removeData('token').then(
+                          (value) => navigateAndReplace(
+                            context,
+                            const LoginScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.blueGrey),
+                      ),
+                    )
+                  : const SizedBox(),
               TextButton(
                 onPressed: () {
                   navigateTo(context, const SearchScreen());
                 },
                 child: const Icon(Icons.search),
-              )
+              ),
+              IconButton(
+                splashRadius: 1,
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                onPressed: () {
+                  shopCubit.getUserData();
+                  navigateTo(context, const EditScreen());
+                },
+                icon: CircleAvatar(
+                  radius: 100,
+                  backgroundImage: NetworkImage(imageUrl),
+                ),
+              ),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

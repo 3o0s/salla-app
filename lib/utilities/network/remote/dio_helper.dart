@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shopapp/utilities/network/end_points.dart';
 
 class DioHelper {
   static late Dio dio;
@@ -34,16 +35,35 @@ class DioHelper {
     Map<String, dynamic>? query,
     String lang = 'en',
     String? token,
-  }) async {
+  }) {
     dio.options.headers = {
       'Authorization': token ?? '',
       'Content-Type': 'application/json',
       'lang': lang,
     };
 
-    return await dio.get(
+    return dio.get(
       url,
       queryParameters: query,
+    );
+  }
+
+  static Future<Response> putData(
+    String path, {
+    Map<String, dynamic>? query,
+    required Map<String, dynamic> data,
+    String lang = 'en',
+    String? token,
+  }) {
+    dio.options.headers = {
+      'Authorization': token ?? '',
+      'Content-Type': 'application/json',
+      'lang': lang,
+    };
+    return dio.put(
+      path,
+      queryParameters: query,
+      data: data,
     );
   }
 }

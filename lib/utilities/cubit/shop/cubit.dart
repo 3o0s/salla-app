@@ -1,7 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/model/catagories_model.dart';
 import 'package:shopapp/model/favorites_model.dart';
 import 'package:shopapp/model/home_model.dart';
+import 'package:shopapp/model/user_model.dart';
 import 'package:shopapp/utilities/cubit/shop/states.dart';
 import 'package:shopapp/utilities/network/end_points.dart';
 import 'package:shopapp/utilities/network/remote/dio_helper.dart';
@@ -12,6 +18,7 @@ class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState()) {
     getProductsData();
     getCategoriesData();
+    getUserData();
   }
   static ShopCubit get(context) => BlocProvider.of(context);
 //Bottom navigation bar
@@ -95,5 +102,66 @@ class ShopCubit extends Cubit<ShopStates> {
     }).catchError((err) {
       print(err);
     });
+  }
+
+  UserModel? usermodel;
+  void getUserData() {
+    emit(ShopDataLoadingDataState());
+    DioHelper.getData(
+      url: profile,
+      token: userToken,
+    ).then((value) {
+      usermodel = UserModel.fromjson(value.data);
+      firstNameController.text = usermodel!.data!.name.split(' ')[0];
+      lastNameController.text = usermodel!.data!.name.split(' ')[1];
+      phoneController.text = usermodel!.data!.phone;
+      emailController.text = usermodel!.data!.email;
+      imageUrl = usermodel!.data!.image;
+      emit(ShopDataSuccessState());
+    }).catchError((err) {
+      emit(ShopDataErrorState());
+    });
+  }
+
+  void updateUserProfile(context) {
+    emit(ProfileLoadingState());
+
+    DioHelper.putData(
+      updateProfile,
+      token: userToken,
+      data: {
+        'name': '${firstNameController.text} ${lastNameController.text}',
+        'phone': phoneController.text,
+        'email': emailController.text,
+        'image': base64codedimage,
+      },
+    ).then((value) {
+      emit(ProfileSuccessState());
+      showSnack(context, message: 'Updated Successfully');
+      getUserData();
+    }).catchError((error) {
+      showSnack(
+        context,
+        state: AppState.error,
+        message: 'Something went error!',
+      );
+    });
+  }
+
+  Future<String> pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      Uint8List bytes = File(result.files.single.path!).readAsBytesSync();
+      return base64Encode(bytes);
+    } else {
+      return '';
+    }
+  }
+
+  Uint8List base64ToImage(String base64) {
+    return base64Decode(base64.split(',').last);
   }
 }

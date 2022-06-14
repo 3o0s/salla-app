@@ -32,17 +32,20 @@ class LoginScreen extends StatelessWidget {
                       CachHelper.saveData(
                         'token',
                         state.loginModel.data!.token,
-                      ).then((value) =>
-                          navigateAndReplace(context, const HomeLayout()));
+                      ).then((value) {
+                        userToken = state.loginModel.data!.token;
+                        navigateAndReplace(context, const HomeLayout());
+                      });
                       showSnack(
                         context,
-                        message: state.loginModel.message,
+                        message:
+                            'Welcom back ${state.loginModel.data!.name.split(' ')[0]}!',
                       );
                     }
                   } else if (state is LoginErrorState) {
                     showSnack(
                       context,
-                      message: state.error,
+                      message: "Invalid Email or Password",
                       state: AppState.error,
                     );
                   }
@@ -69,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 30.0),
                         defaultFormFeild(
-                          controller: LoginCubit.emailController,
+                          controller: emailController,
                           type: TextInputType.emailAddress,
                           validate: (String? val) {
                             if (val == null || val == '') {
@@ -86,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         defaultFormFeild(
                             isPassword: loginCubit.isHidden,
-                            controller: LoginCubit.passwordController,
+                            controller: passwordController,
                             type: TextInputType.emailAddress,
                             validate: (String? val) {
                               if (val == null || val == '') {

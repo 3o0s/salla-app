@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:shopapp/modules/categories_screen.dart';
 import 'package:shopapp/modules/favorites_screen.dart';
@@ -12,7 +14,12 @@ enum AppState {
   warning,
 }
 
+String base64codedimage = '';
+String imageUrl = '';
+
+final phoneNumber = RegExp(r'^[0-9]+$');
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
+GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
 List<Widget> bottomScreen = const [
   ProductScreen(),

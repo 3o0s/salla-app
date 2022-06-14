@@ -19,3 +19,9 @@ class ShopsuccessgetFavState extends ShopStates {}
 class ShopgetFavErrorState extends ShopStates {}
 
 class ShopCategoriesErrorState extends ShopStates {}
+
+class ProfileLoadingState extends ShopStates {}
+
+class ProfileSuccessState extends ShopStates {
+  ProfileSuccessState();
+}

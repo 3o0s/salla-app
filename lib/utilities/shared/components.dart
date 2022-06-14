@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:shopapp/modules/login_screen.dart';
 import 'package:shopapp/utilities/network/local/cach_helper.dart';
@@ -83,19 +86,23 @@ Widget extednedButton({
       width: width,
       height: height,
       child: TextButton(
+        onPressed: function,
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
           style: TextStyle(
             color: textColor,
           ),
         ),
-        onPressed: function,
       ),
     );
-
+TextEditingController firstNameController = TextEditingController();
+TextEditingController lastNameController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+TextEditingController phoneController = TextEditingController();
+TextEditingController emailController = TextEditingController();
 Widget defaultFormFeild({
   required TextEditingController controller,
-  required TextInputType type,
+  TextInputType? type,
   required String? Function(String? value) validate,
   Function(String value)? onSubmit,
   Function(String value)? onChange,
@@ -103,7 +110,7 @@ Widget defaultFormFeild({
   Function()? prefixPressed,
   Function()? onTap,
   required String label,
-  required IconData prefix,
+  IconData? prefix,
   IconData? suffex,
   bool isPassword = false,
   bool isClickable = true,
