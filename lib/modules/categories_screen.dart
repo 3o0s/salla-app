@@ -43,9 +43,12 @@ class Categorybuider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.horizontal(
-              left: Radius.circular(30), right: Radius.circular(30))),
+        color: Colors.white,
+        borderRadius: BorderRadius.horizontal(
+          left: Radius.circular(30),
+          right: Radius.circular(30),
+        ),
+      ),
       margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Row(
         children: [
@@ -61,7 +64,7 @@ class Categorybuider extends StatelessWidget {
           ),
           Text(
             category.name,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.grey,
               fontWeight: FontWeight.bold,
               fontSize: 20,
