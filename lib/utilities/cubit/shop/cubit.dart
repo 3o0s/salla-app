@@ -164,4 +164,27 @@ class ShopCubit extends Cubit<ShopStates> {
   Uint8List base64ToImage(String base64) {
     return base64Decode(base64.split(',').last);
   }
+
+  void changePassword(context) {
+    emit(ChangePasswordLoadingState());
+    DioHelper.postData(
+      token: userToken,
+      path: modifyPassword,
+      data: {
+        "current_password": passwordController.text,
+        "new_password": newPasswordController.text,
+      },
+    ).then((value) {
+      emit(ChangePasswordSuccessState());
+      if (value.data['status']) {
+        showSnack(context, message: value.data['message']);
+      } else {
+        showSnack(
+          context,
+          state: AppState.error,
+          message: value.data['message'],
+        );
+      }
+    });
+  }
 }

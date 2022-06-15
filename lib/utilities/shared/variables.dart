@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:shopapp/modules/categories_screen.dart';
 import 'package:shopapp/modules/favorites_screen.dart';
@@ -15,11 +13,14 @@ enum AppState {
 }
 
 String base64codedimage = '';
-String imageUrl = '';
+String imageUrl =
+    'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg';
 
 final phoneNumber = RegExp(r'^[0-9]+$');
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
 GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+GlobalKey<FormState> profileDataFormKey = GlobalKey<FormState>();
+GlobalKey<FormState> changePasswordFormKey = GlobalKey<FormState>();
 
 List<Widget> bottomScreen = const [
   ProductScreen(),

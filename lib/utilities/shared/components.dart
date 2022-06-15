@@ -98,6 +98,7 @@ Widget extednedButton({
 TextEditingController firstNameController = TextEditingController();
 TextEditingController lastNameController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
+TextEditingController newPasswordController = TextEditingController();
 TextEditingController phoneController = TextEditingController();
 TextEditingController emailController = TextEditingController();
 Widget defaultFormFeild({

@@ -25,3 +25,7 @@ class ProfileLoadingState extends ShopStates {}
 class ProfileSuccessState extends ShopStates {
   ProfileSuccessState();
 }
+
+class ChangePasswordSuccessState extends ShopStates {}
+
+class ChangePasswordLoadingState extends ShopStates {}
