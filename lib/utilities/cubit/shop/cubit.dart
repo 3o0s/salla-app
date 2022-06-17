@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopapp/model/catagories_model.dart';
@@ -63,9 +62,7 @@ class ShopCubit extends Cubit<ShopStates> {
       categoriesModel = CategoriesModel.fromJson(response.data);
 
       emit(ShopCategoriesSuccessState());
-    }).catchError((err) {
-      print(err);
-    });
+    }).catchError((err) {});
   }
 
   FavoritesModel? favoritesModel;
@@ -74,7 +71,6 @@ class ShopCubit extends Cubit<ShopStates> {
       favoritesModel = FavoritesModel.fromJson(value.data);
       emit(ShopsuccessgetFavState());
     }).catchError((error) {
-      print(error);
       emit(ShopgetFavErrorState());
     });
   }
@@ -99,9 +95,7 @@ class ShopCubit extends Cubit<ShopStates> {
           message: message,
         );
       }
-    }).catchError((err) {
-      print(err);
-    });
+    }).catchError((err) {});
   }
 
   UserModel? usermodel;

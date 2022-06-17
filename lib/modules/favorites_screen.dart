@@ -44,7 +44,7 @@ class Favoritebuider extends StatelessWidget {
           ),
           margin: const EdgeInsets.only(left: 5, top: 5, right: 5),
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          height: 100,
+          height: 120,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
